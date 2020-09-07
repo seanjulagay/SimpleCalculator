@@ -1,0 +1,31 @@
+.screen-container {
+    background-color: $screen-background;
+    width: 100%;
+    height: 15rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .solution-line {
+        font-size: 2.7rem;
+        font-weight: 300;
+        color: $solution-line-text;
+    }
+    .answer-line {
+        font-size: 5.5rem;
+        font-weight: 500;
+        color: $answer-line-text;
+    }
+    & > * {
+        width: 90%;
+        height: 45%;
+        display: flex;
+        align-items: center;
+        & > * {
+            display: block;
+            width: 100%;
+            text-align: right;
+        }
+    }
+}

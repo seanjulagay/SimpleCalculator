@@ -1,0 +1,14 @@
+button {
+    width: 5rem;
+    height: 5rem;
+    &.function {
+        background-color: $function-button;
+    }
+    &.number {
+        background-color: $number-button;
+    }
+    &.solve {
+        background-color: $solve-button;
+        color: white;
+    }
+}
