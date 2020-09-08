@@ -98,6 +98,8 @@ function writeNumber() { // thank god for event.target.id
             break;
     }
 
+    //TODO add functionality to avoid leading zeroes and functionality for single periods only
+
     if(solutionLineArr.length < 3) {
         solutionLineArr.push(activeNum);
         solutionLineArr.push(" ");
