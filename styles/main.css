@@ -2,6 +2,11 @@
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 body, html {
@@ -24,7 +29,6 @@ button {
   font-size: 2.5rem;
   -webkit-transition: .3s background-color;
   transition: .3s background-color;
-  -webkit-tap-highlight-color: transparent;
 }
 
 button:hover {

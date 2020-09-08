@@ -6,7 +6,6 @@ button {
     outline: none;
     font-size: 2.5rem;
     transition: .3s background-color;
-    -webkit-tap-highlight-color: transparent;
     &:hover {
         cursor: pointer;
     }
