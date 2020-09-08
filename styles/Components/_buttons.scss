@@ -1,14 +1,35 @@
 button {
-    width: 5rem;
-    height: 5rem;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 3rem;
+    border: none;
+    outline: none;
+    font-size: 2.5rem;
+    transition: .3s background-color;
+    -webkit-tap-highlight-color: transparent;
+    &:hover {
+        cursor: pointer;
+    }
     &.function {
         background-color: $function-button;
+        color: $function-button-text;
+        &:active {
+            background-color: $function-button-pressed;
+        }
     }
     &.number {
         background-color: $number-button;
+        color: $number-button-text;
+        &:active {
+            background-color: $number-button-pressed;
+        }
     }
     &.solve {
         background-color: $solve-button;
         color: white;
+        width: 12.5rem;
+        &:active {
+            background-color: $solve-button-pressed;
+        }
     }
 }

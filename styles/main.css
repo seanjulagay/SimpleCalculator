@@ -2,7 +2,6 @@
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  border: 1px dotted gray;
 }
 
 body, html {
@@ -17,21 +16,58 @@ body, html {
 }
 
 button {
-  width: 5rem;
-  height: 5rem;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 3rem;
+  border: none;
+  outline: none;
+  font-size: 2.5rem;
+  -webkit-transition: .3s background-color;
+  transition: .3s background-color;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 button.function {
   background-color: #F9CC76FF;
+  color: #D3941AFF;
+}
+
+button.function:active {
+  background-color: #D5AA57;
 }
 
 button.number {
   background-color: #D2D2D2FF;
+  color: #888888FF;
+}
+
+button.number:active {
+  background-color: #AEAEAE;
 }
 
 button.solve {
   background-color: #FFBA34FF;
   color: white;
+  width: 12.5rem;
+}
+
+button.solve:active {
+  background-color: #CD9018;
+}
+
+.buttons-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1.5rem;
 }
 
 .buttons-container .button-row {
@@ -39,6 +75,7 @@ button.solve {
   display: -ms-flexbox;
   display: flex;
   width: 100%;
+  gap: 1.5rem;
 }
 
 .calc-container {
@@ -57,6 +94,7 @@ button.solve {
       -ms-flex-align: center;
           align-items: center;
   margin: auto;
+  border-radius: 1rem;
 }
 
 .calc-container .components-container {
@@ -97,6 +135,7 @@ button.solve {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  border-radius: 1rem;
 }
 
 .screen-container .solution-line {
