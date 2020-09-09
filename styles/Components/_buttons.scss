@@ -9,14 +9,14 @@ button {
     &:hover {
         cursor: pointer;
     }
-    &.function {
+    &.function, &.operation {
         background-color: $function-button;
         color: $function-button-text;
         &:active {
             background-color: $function-button-pressed;
         }
     }
-    &.number {
+    &.number, &.period, &.zero {
         background-color: $number-button;
         color: $number-button-text;
         &:active {

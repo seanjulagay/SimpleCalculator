@@ -35,21 +35,21 @@ button:hover {
   cursor: pointer;
 }
 
-button.function {
+button.function, button.operation {
   background-color: #F9CC76FF;
   color: #D3941AFF;
 }
 
-button.function:active {
+button.function:active, button.operation:active {
   background-color: #D5AA57;
 }
 
-button.number {
+button.number, button.period, button.zero {
   background-color: #D2D2D2FF;
   color: #888888FF;
 }
 
-button.number:active {
+button.number:active, button.period:active, button.zero:active {
   background-color: #AEAEAE;
 }
 
