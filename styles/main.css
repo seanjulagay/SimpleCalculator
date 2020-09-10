@@ -53,13 +53,13 @@ button.number:active, button.period:active, button.zero:active {
   background-color: #AEAEAE;
 }
 
-button.solve {
+button.equals {
   background-color: #FFBA34FF;
   color: white;
   width: 12.5rem;
 }
 
-button.solve:active {
+button.equals:active {
   background-color: #CD9018;
 }
 
