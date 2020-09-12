@@ -163,12 +163,13 @@ button.equals:active {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: right;
 }
 
 .screen-container > * > * {
-  display: block;
   width: 100%;
-  text-align: right;
 }
 
 body {

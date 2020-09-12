@@ -1,0 +1,13 @@
+TODO:
+    OK  1. Allow input of numbers, operations, zero, and period, then display on screen
+    OK  2. Create clear function deleting one character, and clear entry function deleting everything on screen
+    OK  3. Solve the input on the screen by writing a parser function (instead of using eval()*) and display it
+    OK		* Extend "clear" functionality on the expression arrays
+    OK  4. Eliminate successive operations & allow operation replacement
+    OK  5. Eliminate successive decimals
+    OK  6. Eliminate successive zeroes
+    OK  7. Implement percentage function
+        8. Go crazy on additional features
+
+        * using eval() has alleged potential security risks
+	

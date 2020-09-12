@@ -1,32 +1,17 @@
-/*
-    TODO:
-    OK  1. Allow input of numbers, operations, zero, and period, then display on screen
-    OK  2. Create clear function deleting one character, and clear entry function deleting everything on screen
-        3. Solve the input on the screen by writing a parser function (instead of using eval()*) and display it
-    OK      * Extend "clear" functionality on the expression arrays
-    OK  4. Eliminate successive operations & allow operation replacement
-        5. Eliminate successive decimals
-        6. Eliminate successive zeroes
-        7. Implement plus-minus function
-        8. Go crazy on additional features
-
-        * using eval() has alleged potential security risks
-*/
-
 var solution; // value of the solution text DOM element
 var solutionArr; // char array split of solution (for easy maniupation)
 var answer; // value of answer
-var numbersObj = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9};
+var numbersObj = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9};
 var opObj = {"plus": "+", "minus": "-", "times": "×", "divide": "÷"};
 var doesOpExist; // boolean for operation replacement functionality check
 var numExpressionArr = [""]; // leave empty index for the first expression's numbers
-var numExpressionArrIndex = 0;
+var numExpressionArrHolder;
 var opExpressionArr = [""]; // leave empty index for the first expression's operation
-var opExpressionArrIndex = 0;
-var calculationsDone = 0;
+var opExpressionArrHolder; // holders will handle computation, regular will store values for future computation
+var cycles = 0; // cycle for while loop - scanning and parsing
 
 document.getElementById("solution-text-value").textContent = ""; // clear screen
-document.getElementById("answer-text-value").textContent = "";
+document.getElementById("answer-text-value").textContent = "0";
 
 Array.from(document.getElementsByClassName("number")).forEach(function(element) {
     element.addEventListener("click", performUpdate);
@@ -77,12 +62,23 @@ function performUpdate() {
             break;
     }
 
+    console.log(answer);
     console.log(JSON.stringify({numExpressionArr, opExpressionArr}));
+    //console.log(JSON.stringify({numExpressionArrHolder, opExpressionArrHolder}));
     document.getElementById("solution-text-value").textContent = solution;
     document.getElementById("answer-text-value").textContent = answer;
 }
 
 function writeNumber() {
+
+    if(numExpressionArr[numExpressionArr.length - 1] == "0") {
+        console.log("Hello")
+        numExpressionArr[numExpressionArr.length - 1] = "";
+        solutionArr = solution.split("");
+        solutionArr.pop();
+        solution = solutionArr.join("");
+    }
+    
     numExpressionArr[numExpressionArr.length - 1] += numbersObj[event.target.id];
     solution += numbersObj[event.target.id];
 }
@@ -106,11 +102,19 @@ function writeOperation(type) {
 }
 
 function writeZero() {
-    solution += 0;
+
+    if(numExpressionArr[numExpressionArr.length - 1] != "0") {
+        numExpressionArr[numExpressionArr.length - 1] += numbersObj[event.target.id];
+        solution += "0";
+    }    
 }
 
 function writePeriod() {
-    solution += ".";
+
+    if(!/[.]/.test(numExpressionArr[numExpressionArr.length - 1])) {
+        numExpressionArr[numExpressionArr.length - 1] += ".";
+        solution += ".";
+    }
 }
 
 function doFunction() {
@@ -121,8 +125,8 @@ function doFunction() {
         case "clear-entry":
             clearScreen("clear-entry");
             break;
-        case "plus-minus":
-            console.log("not implemented yet");
+        case "percentage":
+            getPercentage()
             break;
         default:
             console.log("doFunction default");
@@ -146,7 +150,7 @@ function clearScreen(type) {
     } else if("clear-entry") {
         console.log("Hi");
         solution = "";
-        answer = "";
+        answer = "0";
         numExpressionArr = [""];
         opExpressionArr = [""];
     }
@@ -166,13 +170,47 @@ function backspaceNumber() {
     }
 }
 
+function getPercentage() {
+    answer = parseFloat(answer) * .01;
+}
+
 function doComputation() { // parsing
-    for(var i = 0; i < opExpressionArr.length; i++) {
-        if(opExpressionArr[i] == "×") {
-            console.log({i});
-            answer = numExpressionArr[i] * numExpressionArr[i + 1];
-            numExpressionArr.splice(i, 2, answer);
-            opExpressionArr.splice(i, 1);
+    opExpressionArrHolder = opExpressionArr.slice(); // slice so values pass instead of reference to array
+    numExpressionArrHolder = numExpressionArr.slice();
+
+    for(var i = 0; i < numExpressionArrHolder.length; i++) {
+        numExpressionArrHolder[i] = parseFloat(numExpressionArrHolder[i]);
+    } // convert elements to number so it works properly (string results in "2" + "2" = "22")
+
+    cycles = 0;
+
+    while(cycles < opExpressionArrHolder.length) {
+        if(/[+\-\×\÷]/g.test(opExpressionArrHolder[cycles]) || /^$/.test(opExpressionArrHolder[cycles])) { // i JUST learned about regex!! wtf this could have saved me time
+            switch(opExpressionArrHolder[cycles]) {
+                case "×":
+                    answer = numExpressionArrHolder[cycles] * numExpressionArrHolder[cycles + 1];
+                    break;
+                case "÷":
+                    answer = numExpressionArrHolder[cycles] / numExpressionArrHolder[cycles + 1];
+                    break;
+                case "+":
+                    answer = numExpressionArrHolder[cycles] + numExpressionArrHolder[cycles + 1];
+                    break;
+                case "-":
+                    answer = numExpressionArrHolder[cycles] - numExpressionArrHolder[cycles + 1];
+                    break;
+                case "":
+                    answer = numExpressionArrHolder[cycles];
+                    break;
+                default:
+                    console.log("doComputation default");
+                    break;
+            }
+            numExpressionArrHolder.splice(cycles, 2, answer);
+            opExpressionArrHolder.splice(cycles, 1);
+            cycles = 0;
+        } else {
+            cycles++;
         }
     }
 }

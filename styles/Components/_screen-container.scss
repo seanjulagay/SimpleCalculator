@@ -23,10 +23,18 @@
         height: 45%;
         display: flex;
         align-items: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-align: right;
         & > * {
-            display: block;
+            // float: right;
             width: 100%;
-            text-align: right;
+            // overflow: hidden;
+            // white-space: nowrap;
+            // display: block;
+            // direction: rtl;
+            // width: 100%;
+            // text-align: right;
         }
     }
 }
