@@ -3,19 +3,30 @@
     OK  1. Allow input of numbers, operations, zero, and period, then display on screen
     OK  2. Create clear function deleting one character, and clear entry function deleting everything on screen
         3. Solve the input on the screen by writing a parser function (instead of using eval()*) and display it
-        4. Eliminate successive operations
+    OK      * Extend "clear" functionality on the expression arrays
+    OK  4. Eliminate successive operations & allow operation replacement
         5. Eliminate successive decimals
         6. Eliminate successive zeroes
         7. Implement plus-minus function
         8. Go crazy on additional features
 
-        * using eval() has alleged potential security risks -- plus writing a parser is a good exercise :)
+        * using eval() has alleged potential security risks
 */
 
-var solution;
-var answer;
-var numbersArr = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9};
-var opArr = {"plus": "+", "minus": "-", "times": "×", "divide": "÷"};
+var solution; // value of the solution text DOM element
+var solutionArr; // char array split of solution (for easy maniupation)
+var answer; // value of answer
+var numbersObj = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9};
+var opObj = {"plus": "+", "minus": "-", "times": "×", "divide": "÷"};
+var doesOpExist; // boolean for operation replacement functionality check
+var numExpressionArr = [""]; // leave empty index for the first expression's numbers
+var numExpressionArrIndex = 0;
+var opExpressionArr = [""]; // leave empty index for the first expression's operation
+var opExpressionArrIndex = 0;
+var calculationsDone = 0;
+
+document.getElementById("solution-text-value").textContent = ""; // clear screen
+document.getElementById("answer-text-value").textContent = "";
 
 Array.from(document.getElementsByClassName("number")).forEach(function(element) {
     element.addEventListener("click", performUpdate);
@@ -43,7 +54,11 @@ function performUpdate() {
             writeNumber();
             break;
         case "operation":
-            writeOperation();
+            if(!Object.values(opObj).includes(Array.from(solution)[Array.from(solution).length - 1])) { // check if last char is not an operation
+                writeOperation("write");
+            } else {
+                writeOperation("replace");
+            }
             break;
         case "function":
             doFunction();
@@ -62,16 +77,32 @@ function performUpdate() {
             break;
     }
 
+    console.log(JSON.stringify({numExpressionArr, opExpressionArr}));
     document.getElementById("solution-text-value").textContent = solution;
     document.getElementById("answer-text-value").textContent = answer;
 }
 
 function writeNumber() {
-    solution += numbersArr[event.target.id];
+    numExpressionArr[numExpressionArr.length - 1] += numbersObj[event.target.id];
+    solution += numbersObj[event.target.id];
 }
 
-function writeOperation() {
-    solution += opArr[event.target.id];
+function writeOperation(type) {
+    if(type == "write") {
+        opExpressionArr[opExpressionArr.length - 1] += opObj[event.target.id];
+        solution += opExpressionArr[opExpressionArr.length - 1];
+    } else if(type == "replace") {
+        // replacement in opExpressionArr
+        opExpressionArr.splice(opExpressionArr.length - 2, 2); // pop last empty and occupied elements
+        numExpressionArr.pop(); // pop this as well to remove empty element
+        opExpressionArr.push(opObj[event.target.id]);
+        // replacement in solution (screen)
+        solutionArr = solution.split("");
+        solutionArr.splice(solutionArr.length - 1, 1, opObj[event.target.id]);
+        solution = solutionArr.join("");
+    }    
+    opExpressionArr.push(""); // next operator will be in new index
+    numExpressionArr.push(""); // next set of numbers will be in new index
 }
 
 function writeZero() {
@@ -85,13 +116,10 @@ function writePeriod() {
 function doFunction() {
     switch(event.target.id) {
         case "clear":
-            solution = Array.from(solution);
-            solution.pop();
-            solution = solution.join("");
+            clearScreen("clear");
             break;
         case "clear-entry":
-            solution = "";
-            answer = "";
+            clearScreen("clear-entry");
             break;
         case "plus-minus":
             console.log("not implemented yet");
@@ -102,6 +130,49 @@ function doFunction() {
     }
 }
 
-function doComputation() { // parsing
+function clearScreen(type) {
+    if(type == "clear") {
+        solutionArr = solution.split("");
+        // clear for arrays
+        if(Object.values(opObj).includes(solutionArr[solutionArr.length - 1])) { // if last char is operation
+            opExpressionArr.splice(opExpressionArr.length - 2, 2);
+            opExpressionArr.push("");
+        } else if(solutionArr[solutionArr.length - 1] > 0){ // if last char is num; prevents split error on basic else
+            backspaceNumber();
+        }
+        // clear for screen
+        solutionArr.pop();
+        solution = solutionArr.join("");
+    } else if("clear-entry") {
+        console.log("Hi");
+        solution = "";
+        answer = "";
+        numExpressionArr = [""];
+        opExpressionArr = [""];
+    }
+}
 
+function backspaceNumber() {
+    var individualNumExpression = numExpressionArr[numExpressionArr.length - 1];
+    var individualNumExpressionArr;
+
+    if(individualNumExpression != "") { // expression not empty
+        individualNumExpressionArr = individualNumExpression.split("");
+        individualNumExpressionArr.pop();
+        numExpressionArr[numExpressionArr.length - 1] = individualNumExpressionArr.join("");
+    } else { 
+        numExpressionArr.pop();
+        backspaceNumber();
+    }
+}
+
+function doComputation() { // parsing
+    for(var i = 0; i < opExpressionArr.length; i++) {
+        if(opExpressionArr[i] == "×") {
+            console.log({i});
+            answer = numExpressionArr[i] * numExpressionArr[i + 1];
+            numExpressionArr.splice(i, 2, answer);
+            opExpressionArr.splice(i, 1);
+        }
+    }
 }
