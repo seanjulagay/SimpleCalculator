@@ -3,7 +3,6 @@ var solutionArr; // char array split of solution (for easy maniupation)
 var answer; // value of answer
 var numbersObj = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9};
 var opObj = {"plus": "+", "minus": "-", "times": "×", "divide": "÷"};
-var doesOpExist; // boolean for operation replacement functionality check
 var numExpressionArr = [""]; // leave empty index for the first expression's numbers
 var numExpressionArrHolder;
 var opExpressionArr = [""]; // leave empty index for the first expression's operation
@@ -15,15 +14,15 @@ document.getElementById("answer-text-value").textContent = "0";
 
 Array.from(document.getElementsByClassName("number")).forEach(function(element) {
     element.addEventListener("click", performUpdate);
-})
+});
 
 Array.from(document.getElementsByClassName("operation")).forEach(function(element) {
     element.addEventListener("click", performUpdate);
-})
+});
 
 Array.from(document.getElementsByClassName("function")).forEach(function(element) {
     element.addEventListener("click", performUpdate);
-})
+});
 
 document.getElementById("zero").addEventListener("click", performUpdate);
 document.getElementById("period").addEventListener("click", performUpdate);
@@ -62,7 +61,6 @@ function performUpdate() {
             break;
     }
 
-    console.log(answer);
     console.log(JSON.stringify({numExpressionArr, opExpressionArr}));
     //console.log(JSON.stringify({numExpressionArrHolder, opExpressionArrHolder}));
     document.getElementById("solution-text-value").textContent = solution;
@@ -70,15 +68,13 @@ function performUpdate() {
 }
 
 function writeNumber() {
-
     if(numExpressionArr[numExpressionArr.length - 1] == "0") {
-        console.log("Hello")
         numExpressionArr[numExpressionArr.length - 1] = "";
         solutionArr = solution.split("");
         solutionArr.pop();
         solution = solutionArr.join("");
     }
-    
+
     numExpressionArr[numExpressionArr.length - 1] += numbersObj[event.target.id];
     solution += numbersObj[event.target.id];
 }
@@ -97,12 +93,12 @@ function writeOperation(type) {
         solutionArr.splice(solutionArr.length - 1, 1, opObj[event.target.id]);
         solution = solutionArr.join("");
     }    
+
     opExpressionArr.push(""); // next operator will be in new index
     numExpressionArr.push(""); // next set of numbers will be in new index
 }
 
 function writeZero() {
-
     if(numExpressionArr[numExpressionArr.length - 1] != "0") {
         numExpressionArr[numExpressionArr.length - 1] += numbersObj[event.target.id];
         solution += "0";
@@ -110,7 +106,6 @@ function writeZero() {
 }
 
 function writePeriod() {
-
     if(!/[.]/.test(numExpressionArr[numExpressionArr.length - 1])) {
         numExpressionArr[numExpressionArr.length - 1] += ".";
         solution += ".";
@@ -126,7 +121,7 @@ function doFunction() {
             clearScreen("clear-entry");
             break;
         case "percentage":
-            getPercentage()
+            getPercentage();
             break;
         default:
             console.log("doFunction default");
@@ -172,7 +167,7 @@ function backspaceNumber() {
 }
 
 function getPercentage() {
-    answer = parseFloat(answer) * .01;
+    answer = parseFloat(answer) * 0.01;
 }
 
 function doComputation() { // parsing
