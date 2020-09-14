@@ -141,6 +141,7 @@ function clearScreen(type) {
         if(Object.values(opObj).includes(solutionArr[solutionArr.length - 1])) { // if last char is operation
             opExpressionArr.splice(opExpressionArr.length - 2, 2);
             opExpressionArr.push("");
+            numExpressionArr.pop();
         } else if(solutionArr[solutionArr.length - 1] > 0){ // if last char is num; prevents split error on basic else
             backspaceNumber();
         }
