@@ -1,23 +1,25 @@
 .calc-container {
-    background-color: $calc-background;
-    width: 32rem;
-    min-width: 32rem;
-    height: 56rem;
-    min-height: 56rem;
+  background-color: $calc-background;
+  width: 32rem;
+  min-width: 32rem;
+  height: 56rem;
+  min-height: 56rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  border-radius: 1rem;
+
+  .components-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    margin: auto;
-    border-radius: 1rem;
-    .components-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: calc(100% - 3rem);
-        height: calc(100% - 7rem);
-        margin-top: 3rem;
-        & > * {
-            margin-bottom: 2rem;
-        }
+    width: calc(100% - 3rem);
+    height: calc(100% - 7rem);
+    margin-top: 3rem;
+    
+    & > * {
+      margin-bottom: 2rem;
     }
+  }
 }
