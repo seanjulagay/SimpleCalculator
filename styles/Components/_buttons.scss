@@ -1,34 +1,45 @@
+@mixin button-styles {
+  background-color: $function-button;
+  color: $function-button-text;
+
+  &:active {
+    background-color: $function-button-pressed;
+  }
+}
+
 button {
-    width: 5.5rem;
-    height: 5.5rem;
-    border-radius: 3rem;
-    border: none;
-    outline: none;
-    font-size: 2.5rem;
-    transition: .3s background-color;
-    &:hover {
-        cursor: pointer;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 3rem;
+  border: none;
+  outline: none;
+  font-size: 2.5rem;
+  transition: 0.3s background-color;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.function,
+  &.operation {
+    @include button-styles();
+  }
+
+  &.number,
+  &.period,
+  &.zero {
+    @include button-styles();
+
+    color: $number-button-text;
+  }
+
+  &.equals {
+    background-color: $solve-button;
+    color: white;
+    width: 12.5rem;
+
+    &:active {
+      background-color: $solve-button-pressed;
     }
-    &.function, &.operation {
-        background-color: $function-button;
-        color: $function-button-text;
-        &:active {
-            background-color: $function-button-pressed;
-        }
-    }
-    &.number, &.period, &.zero {
-        background-color: $number-button;
-        color: $number-button-text;
-        &:active {
-            background-color: $number-button-pressed;
-        }
-    }
-    &.equals {
-        background-color: $solve-button;
-        color: white;
-        width: 12.5rem;
-        &:active {
-            background-color: $solve-button-pressed;
-        }
-    }
+  }
 }
